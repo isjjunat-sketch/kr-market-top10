@@ -1,0 +1,16 @@
+{
+  "name": "한국 주식시장 Top 10",
+  "short_name": "시장 Top 10",
+  "description": "KOSPI·KOSDAQ 시가총액 Top 10과 주도 산업군 변화를 추적합니다.",
+  "lang": "ko-KR",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#09101d",
+  "theme_color": "#09101d",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
