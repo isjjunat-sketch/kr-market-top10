@@ -1,0 +1,36 @@
+name: Update market snapshots
+on:
+  schedule:
+    - cron: '7 6,7,8 * * 1-5'
+      timezone: 'Asia/Seoul'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: update-market-snapshots
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install parquet reader
+        run: pip install -r requirements.txt
+      - name: Update from FinanceData/marcap
+        run: python scripts/fetch_market.py
+      - name: Commit a new validated snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/data/history.json dist/data/latest.json
+          if git diff --cached --quiet; then
+            echo "No new validated market date; keeping the existing dashboard."
+            exit 0
+          fi
+          git commit -m "data: update market snapshot"
+          git push
